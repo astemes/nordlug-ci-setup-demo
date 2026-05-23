@@ -18,6 +18,7 @@ jobs:
         with:
           project-path: "project.lvproj"
           build-spec: "Application"
+          build-type: "exe"
       - name: Release Executable
         uses: astemes/astemes-github-actions/releaseFile@main
         with:
