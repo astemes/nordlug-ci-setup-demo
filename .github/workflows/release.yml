@@ -4,11 +4,11 @@ on:
     tags:
       - '*'
 concurrency:
-  group: lv2020
+  group: nordlug
   cancel-in-progress: false
 jobs:
   release:
-    runs-on: lv2020
+    runs-on: nordlug
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
