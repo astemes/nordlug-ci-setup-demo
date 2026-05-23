@@ -1,0 +1,23 @@
+name: Unit Tests
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+concurrency:
+  group: nordlug
+  cancel-in-progress: false
+jobs:
+  checkout:
+    runs-on: nordlug
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+  test:
+    needs: checkout
+    runs-on: nordlug
+    steps:
+      - uses: astemes/astemes-github-actions/runLUnit@main
+        with:
+          project-path: "tests"

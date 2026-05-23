@@ -1,0 +1,28 @@
+name: Build and Release
+on:
+  push:
+    tags:
+      - '*'
+concurrency:
+  group: lv2020
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: lv2020
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - name: Get version
+        id: get_version
+        uses: astemes/astemes-github-actions/getVersion@main
+      - name: Build Executable
+        id: build_exe
+        uses: astemes/astemes-github-actions/buildLVBuildSpec@main
+        with:
+          project-path: "project.lvproj"
+          build-spec: "Application"
+          version: "${{ steps.get_version.outputs.version }}"
+      - name: Release Executable
+        uses: astemes/astemes-github-actions/releaseFile@main
+        with:
+          file-path: "${{ steps.build_exe.outputs.artifact-path }}"
