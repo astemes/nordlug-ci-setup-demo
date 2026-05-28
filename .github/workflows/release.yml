@@ -1,0 +1,24 @@
+name: Build and Release
+on:
+  push:
+    tags:
+      - '*'
+concurrency:
+  group: nordlug
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: nordlug
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      - uses: astemes/astemes-github-actions/buildLVBuildSpecNonVersioned@main
+        id: build_exe
+        with:
+          project-path: "Project.lvproj"
+          build-spec: "Application"
+          build-type: "exe"
+      - name: Release Executable
+        uses: astemes/astemes-github-actions/releaseFile@main
+        with:
+          file-path: "${{ steps.build_exe.outputs.artifact-path }}"
